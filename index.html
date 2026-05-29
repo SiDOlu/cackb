@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CACKB - Community & Service</title>
+    
+    <!-- Favicon Placeholder -->
+    <link rel="icon" type="image/jpeg" href="https://f1s.6dc.myftpupload.com/wp-content/uploads/2024/02/cropped-CACKB-LOGO-001.jpg" onerror="this.onerror=null;this.href='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><text y=\'.9em\' font-size=\'90\'>✝️</text></svg>'" />
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+        .slider-item {
+            display: none;
+            position: relative;
+            height: 100%;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .slider-image-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+        .active-slide {
+            display: block;
+            opacity: 1;
+        }
+        .map-container {
+            overflow: hidden;
+            padding-bottom: 75%;
+            position: relative;
+            height: 0;
+            border-radius: 0.75rem;
+        }
+        .map-container iframe {
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+        }
+
+        .ministry-visual {
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            width: 100%;
+            height: auto;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .gallery-scroll { scroll-behavior: smooth; }
+        .gallery-card { transition: transform 0.3s ease; cursor: pointer; }
+        .gallery-card:hover { transform: scale(1.02); }
+        
+        /* Modal Transitions */
+        #image-modal {
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(12px);
+        }
+        .modal-nav-btn {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(4px);
+            transition: all 0.2s;
+        }
+        .modal-nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <img src="https://f1s.6dc.myftpupload.com/wp-content/uploads/2024/02/cropped-CACKB-LOGO-001.jpg" 
+                     onerror="this.onerror=null;this.src='https://placehold.co/40x40/2563EB/ffffff?text=CACKB';"
+                     alt="CAC Kingdom Builders Logo" class="h-10 w-10 rounded-full" />
+                <span class="text-2xl font-extrabold text-blue-700 tracking-tight">CACKB</span>
+            </div>
+            
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#home" class="text-gray-600 hover:text-blue-700 transition">Home</a>
+                <a href="#welcome" class="text-gray-600 hover:text-blue-700 transition">Welcome</a>
+                <a href="#theme" class="text-gray-600 hover:text-blue-700 transition">Watchword</a>
+                <a href="#ministries" class="text-gray-600 hover:text-blue-700 transition">Ministries</a>
+                <a href="#gallery" class="text-gray-600 hover:text-blue-700 transition">Gallery</a>
+                <a href="#events" class="text-gray-600 hover:text-blue-700 transition">Events</a>
+                <a href="#contact" class="text-gray-600 hover:text-blue-700 transition">Contact</a>
+            </nav>
+
+            <button id="mobile-menu-btn" class="md:hidden text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <nav class="px-4 pt-2 pb-3 space-y-1 text-center">
+                <a href="#home" class="block py-2 text-gray-700 hover:text-blue-700">Home</a>
+                <a href="#welcome" class="block py-2 text-gray-700 hover:text-blue-700">Welcome</a>
+                <a href="#theme" class="block py-2 text-gray-700 hover:text-blue-700">Watchword</a>
+                <a href="#ministries" class="block py-2 text-gray-700 hover:text-blue-700">Ministries</a>
+                <a href="#gallery" class="block py-2 text-gray-700 hover:text-blue-700">Gallery</a>
+                <a href="#events" class="block py-2 text-gray-700 hover:text-blue-700">Events</a>
+                <a href="#contact" class="block py-2 text-gray-700 hover:text-blue-700">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Enhanced Image Modal -->
+    <div id="image-modal" class="fixed inset-0 z-[100] hidden bg-black/95 flex items-center justify-center p-4" onclick="closeModal()">
+        <!-- Close Button -->
+        <button class="absolute top-6 right-6 text-white/70 hover:text-white z-[110]" onclick="closeModal()">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+
+        <!-- Navigation Arrows -->
+        <button class="modal-nav-btn absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white p-4 rounded-full z-[110]" onclick="navigateModal(-1); event.stopPropagation();">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        </button>
+        <button class="modal-nav-btn absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white p-4 rounded-full z-[110]" onclick="navigateModal(1); event.stopPropagation();">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+
+        <!-- Image -->
+        <div class="relative max-w-5xl max-h-[85vh] flex items-center justify-center">
+            <img id="modal-img" src="" class="max-w-full max-h-[85vh] rounded-lg shadow-2xl object-contain select-none" onclick="event.stopPropagation()">
+            <!-- Counter -->
+            <div id="modal-counter" class="absolute -bottom-10 left-1/2 -translate-x-1/2 text-white/60 text-sm font-medium"></div>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Slider -->
+        <section id="home" class="relative w-full overflow-hidden shadow-xl" style="height: 70vh; margin-top: 2px;">
+            <div id="image-slider" class="h-full">
+                <div class="slider-item active-slide">
+                    <div class="slider-image-background" style="background-image: url('/img/2026 THEME STICKER 2.jpg');"></div>
+                </div>
+                <div class="slider-item">
+                    <div class="slider-image-background" style="background-image: url('/img/KINGDOM FEAST 2026.jpg');"></div>
+                </div>
+            </div>
+            <button id="prev-slide" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black bg-opacity-30 text-white p-3 rounded-full hover:bg-opacity-60 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <button id="next-slide" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black bg-opacity-30 text-white p-3 rounded-full hover:bg-opacity-60 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+        </section>
+
+        <!-- Welcome Message -->
+        <section id="welcome" class="py-16 md:py-24 bg-white">
+            <div class="max-w-4xl mx-auto px-4">
+                <div class="bg-blue-50 border-l-8 border-blue-700 p-8 md:p-12 rounded-r-2xl shadow-lg">
+                    <h2 class="text-3xl font-black text-blue-900 mb-6">Welcome to CAC Kingdom Builders</h2>
+                    <div class="space-y-6 text-lg text-gray-700 leading-relaxed italic">
+                        <p>We are thrilled to have you here as part of our digital community. Whether you're a longstanding member or a newcomer seeking spiritual guidance, you've come to the right place. Our website is designed to be a hub of inspiration, education, and connection for all who seek to deepen their faith and grow in their relationship with God.</p>
+                        <p>Explore our diverse range of resources, from uplifting sermons to insightful articles, and discover ways to get involved in our vibrant community of believers. We invite you to join us on this journey of faith as we strive to build God's kingdom together, both online and in our local communities.</p>
+                        <p>Thank you for visiting, and may God's blessings be upon you as you explore and engage with our website.</p>
+                    </div>
+                    <div class="mt-10 pt-6 border-t border-blue-200">
+                        <p class="text-xl font-bold text-blue-900">In His Kingdom,</p>
+                        <p class="text-2xl font-black text-blue-700 mt-1">Pastor Reuben Rotimi Fajimi</p>
+                        <p class="text-sm font-semibold uppercase tracking-widest text-gray-500">CAC Kingdom Builders</p>
+                        <p class="text-xl font-bold text-blue-900"><a href="http://christapostolicchurch.org.ng/" target="_blank"><br>Click here to Learn More About Christ Apostolic Church<br></a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Watchword Section -->
+        <section id="theme" class="bg-blue-900 py-16 text-white text-center">
+            <div class="max-w-7xl mx-auto px-4">
+                <h3 class="text-sm font-extrabold tracking-widest uppercase opacity-80 mb-3">2026 Annual Theme</h3>
+                <h2 class="text-4xl md:text-6xl font-black mb-6">OUR YEAR OF GREAT & MIGHTY THINGS</h2>
+                <p class="text-lg md:text-2xl font-light italic border-t border-b border-white border-opacity-30 py-6 mx-auto max-w-2xl">
+                    "Call unto me, and I will answer thee, and shew thee great and mighty things, which thou knowest not" — Jeremiah 33:3
+                </p>
+                <div class="mt-16">
+                    <h4 class="text-3xl font-bold mb-10 text-yellow-400">Monthly Themes</h4>
+                    <div id="monthly-themes-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ministries -->
+        <section id="ministries" class="py-16 md:py-24 max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-blue-700 mb-4">Our Ministries</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-lg border-t-4 border-blue-500 overflow-hidden">
+                    <img class="ministry-visual gallery-trigger" src="/img/CHILDREN & YOUTH.jpg" onerror="this.src='https://placehold.co/600x400/2563EB/ffffff?text=YOUTH';" alt="Youth">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-blue-600 mb-3">Children & Youth</h3>
+                        <p class="text-gray-600">Nurturing the next generation in faith.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg border-t-4 border-yellow-500 overflow-hidden">
+                    <img class="ministry-visual gallery-trigger" src="/img/WOMEN FELLOWSHIP.jpg" onerror="this.src='https://placehold.co/600x400/FBBF24/000000?text=WOMEN';" alt="Women">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-blue-600 mb-3">Women's Fellowship</h3>
+                        <p class="text-gray-600">A supportive community of sisters in Christ.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg border-t-4 border-red-500 overflow-hidden">
+                    <img class="ministry-visual gallery-trigger" src="/img/MEN FELLOWSHIP.jpg" onerror="this.src='https://placehold.co/600x400/EF4444/ffffff?text=MEN';" alt="Men">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-blue-600 mb-3">Men's Ministry</h3>
+                        <p class="text-gray-600">Empowering men for leadership.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery -->
+        <section id="gallery" class="py-16 bg-slate-100 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="flex justify-between items-end mb-10">
+                    <h2 class="text-4xl font-bold text-blue-700">Life at CACKB</h2>
+                    <div class="flex gap-2">
+                        <button onclick="scrollGalleries(-1)" class="p-3 rounded-full bg-white shadow-md border border-gray-200"><svg class="w-6 h-6 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
+                        <button onclick="scrollGalleries(1)" class="p-3 rounded-full bg-white shadow-md border border-gray-200"><svg class="w-6 h-6 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <div id="gallery-row-1" class="gallery-scroll flex gap-6 overflow-x-auto pb-4 hide-scrollbar">
+                        <img src="/img/watchword.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Worship">
+
+
+<img src="/img3/2f17b2e6-7a39-4d26-976b-6581c2ac7b49.JPG" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Worship">
+<img src="/img3/ac647be3-7eb6-423d-9226-b5ee496c0233.JPG" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Worship">
+<img src="/img3/b76a6f69-1ab1-4023-987f-9ed7d69ff7df.JPG" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Worship">
+<img src="/img3/baaa5cbf-e3a1-4fad-9f91-e13879794125.JPG" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Worship">
+<img src="/img3/bccb4e3e-aa05-4968-9ba0-a3bcf9416ad7.JPG" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Worship">
+<img src="/img3/f0bf72fa-4f82-4499-b626-9fe3fee38c10.JPG" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Worship">
+<img src="/img3/f6d29ecf-df1a-42bd-b6f0-4b18de2f6f1f.JPG" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Worship">
+
+
+                        <img src="/img2/img- 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img2/img- 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img2/img- 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img2/img- 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img2/img- 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img2/img- 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img2/img- 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img2/img-.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img2/img-22-19-22-25 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img2/img-22-19-22-25 11.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img2/img-22-19-22-25 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img2/img-22-19-22-25 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img2/img-22-19-22-25 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img2/img-22-19-22-25 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img2/img-22-19-22-25 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img2/img-22-19-22-25 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img2/img-22-19-22-25 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-25 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-25.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-26 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-26 11.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-26 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-26 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-26 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-26 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-26 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-26 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-26 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-26 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-26.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-27 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-27 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-27 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-27 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-27 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-27 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-27 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-27 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-27 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-27.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-28 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-28 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-28 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-28 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-28 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-28 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-28 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-28 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-28 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-28.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-29 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-29 11.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-29 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-29 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-29 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-29 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-29 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-29 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-29 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-29 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-29.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-30 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-30 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-30 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-30 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-30 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-30 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-30 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-30 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-30 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-30.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-31 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-31 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-31 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-31 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-31 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-31 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-31 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-31 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-31.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-32 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-32 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-32 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-32 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-32 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-32 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-32 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-32.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-33.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-35 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-35 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-35.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-36 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-36 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-36 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-36 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-36 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-36 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-36 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/img-22-19-22-36.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-52 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-52.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-53 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-53 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-53 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-53 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-53 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-53 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-53 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-53.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-54 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-54.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-55 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-55.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-58 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img/w-1-1024x810.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Feast">
+                        <img src="/img/IMG-20240201-WA0030-1024x683.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Youth">
+                        <img src="/img/IMG-20240201-WA0028-1024x682.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Event">
+                        <img src="/img/IMG-20240201-WA0023-1024x682.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Gathering">
+                    </div>
+                    <div id="gallery-row-2" class="gallery-scroll flex gap-6 overflow-x-auto pb-4 hide-scrollbar">
+                        <img src="/img2/PHOTO-2026-01-22-19-21-58.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-59 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-59 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-59 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-59 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-59 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-59 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-59 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-59 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-59 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-21-59.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-00 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-00 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-00 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-00 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-00 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-00 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-00.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-01 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-01 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-01 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-01 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-01 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-01 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-01 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-01 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-01.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-02 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-02 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-02 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-02 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-02 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-02 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-02 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-02 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-02.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-03 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-03 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-03 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-03.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-04 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-04 11.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-04 12.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-04 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-04 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-04 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-04 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-04 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-04 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-04 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-04 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-04.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-05 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-05 11.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-05 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-05 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-05 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-05 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-05 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-05 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-05 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-05 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-05.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-06 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-06 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-06 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-06 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-06 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-06 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-06 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-06 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-06 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-06.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-07 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-07 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-07 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-07 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-07 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-07 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-07 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-07 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-07.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-08 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-08 11.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-08 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-08 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-08 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-08 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-08 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-08 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-08 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-08 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-08.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-09 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-09 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-09 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-09 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-09 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-09 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-09 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-09 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-09.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-10 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-10 11.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-10 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-10 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-10 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-10 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-10 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-10 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-10 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-10 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-11 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-11 11.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-11 12.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img/IMG-20240201-WA0027-1024x682.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img/IMG-20240201-WA0026-1024x682.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Gathering">
+                        <img src="/img/IMG-20240201-WA0025-1-1024x682.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Event">
+                        <img src="/img/IMG-20240201-WA0025-1024x682.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img/IMG-20240201-WA0024-682x1024.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                    </div>
+                    
+                    <div id="gallery-row-3" class="gallery-scroll flex gap-6 overflow-x-auto pb-4 hide-scrollbar">
+                        
+<img src="/img2/PHOTO-2026-01-22-19-22-11 13.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-11 14.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-11 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-11 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-11 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-11 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-11 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-11 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-11 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-11 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-11.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-12 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-12 11.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-12 12.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-12 13.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-12 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-12 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-12 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-12 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-12 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-12 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-12 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-12 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-12.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-13 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-13 11.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-13 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-13 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-13 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-13 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-13 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-13 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-13 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-13 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-13.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-14 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-14 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-14 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-14.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-15 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-15 11.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-15 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-15 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-15 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-15 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-15 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-15 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-15 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-15 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-15.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-16 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-16 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-16 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-16 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-16 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-16 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-16.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-17 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-17 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-17 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-17 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-17 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-17 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-17.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-18 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-18 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-18 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-18 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-18 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-18.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-19 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-19 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-19 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-19 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-19 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-19 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-19.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-20 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-20 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-20 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-20 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-20 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-20 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-20 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-20.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-21 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-21 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-21 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-21 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-21 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-21 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-21.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-22 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-22 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-22 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-22 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-22 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-22.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-24 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-24 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-24 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-24 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-24 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-24 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-24 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-24.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-25 10.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-25 11.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-25 2.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-25 3.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-25 4.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-25 5.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-25 6.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-25 7.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-25 8.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-25 9.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-25.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+<img src="/img2/PHOTO-2026-01-22-19-22-26.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer"> 
+                        <img src="/img/IMG-20240201-WA0023-1-1024x682.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img/IMG-20240201-WA0022-1024x682.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Gathering">
+                        <img src="/img/IMG-20240201-WA0022-1-1024x682.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Event">
+                        <img src="/img/IMG-20240201-WA0021-1024x682.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                        <img src="/img/IMG-20240201-WA0021-1-1024x682.jpg" class="flex-none w-72 md:w-96 h-56 object-cover rounded-xl shadow-md gallery-card gallery-trigger" alt="Prayer">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events -->
+        <section id="events" class="py-16 md:py-24 bg-white">
+            <div class="max-w-6xl mx-auto px-4">
+                <h2 class="text-4xl font-bold text-blue-700 mb-12 text-center">Upcoming Events</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border">
+                        <img src="/img/Event.jpg" class="w-full h-64 object-cover gallery-trigger" alt="Crossover">
+                        <div class="p-8">
+                            <h3 class="text-2xl font-bold mb-3">Crossover Night Service</h3>
+                            <p class="text-gray-600 mb-4">Powerful prophetic prayers as we cross over.</p>
+                            <span class="text-sm font-semibold text-green-700">31 DEC 2025</span>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border">
+                        <img src="/img/KINGDOM FEAST 2026.jpg" class="w-full h-64 object-cover gallery-trigger" alt="Feast">
+                        <div class="p-8">
+                            <h3 class="text-2xl font-bold mb-3">Annual Kingdom Feast</h3>
+                            <p class="text-gray-600 mb-4">Global celebration for all branches.</p>
+                            <span class="text-sm font-semibold text-yellow-600">21 DEC 2025</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="py-16 md:py-24 bg-slate-50">
+            <div class="max-w-6xl mx-auto px-4">
+                <h2 class="text-4xl font-bold text-blue-700 mb-12 text-center">Contact & Location</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div class="bg-white p-8 rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Zonal Headquarters</h3>
+                        <p class="text-gray-700">DAGENHAM PARISH CHURCH HALL, EXETER ROAD, DAGENHAM RM10 8TR.</p>
+                        <p class="mt-2 text-blue-600 font-bold">+44 (0) 7782762821</p>
+                        
+                        <h3 class="text-2xl font-bold text-gray-800 mt-8 mb-4">Correspondense Address</h3>
+                        <p class="text-gray-700">10, STRATFORD CLOSE, DAGENHAM RM10 9TT</p>
+                        <p class="mt-2 text-blue-600 font-bold">+44 (0) 790 3626 570 | +44 (0) 783 2090 243</p>
+                    </div>
+                    <div class="map-container shadow-lg">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2481.6550111219626!2d0.16077971188590143!3d51.537887171702714!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a5156d788eb9%3A0xd20d9e6a9af7b021!2s10%20Stratford%20Cl%2C%20Dagenham%20RM10%209TT!5e0!3m2!1sen!2suk!4v1766492196028!5m2!1sen!2suk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-12 text-center">
+        <p>&copy; 2025 CAC Kingdom Builders | Charity Registration No: 1126777</p>
+    </footer>
+
+    <script>
+        const monthlyThemes = [
+            { month: "January", theme: "Increase", img: "/img/JANUARY.jpg" },
+            { month: "February", theme: "Transformation", img: "/img/FEBRUARY.jpg" },
+            { month: "March", theme: "Good News", img: "/img/MARCH.jpg" },
+            { month: "April", theme: "Victory", img: "/img/APRIL.jpeg" },
+            { month: "May", theme: "New Things", img: "/img/MAY.jpg" },
+            { month: "June", theme: "Possibilities", img: "/img/JUNE.jpg" },
+            { month: "July", theme: "Mercy Prevails", img: "/img/JULY.jpg" },
+            { month: "August", theme: "Open Heavens", img: "/img/AUGUST.jpg" },
+            { month: "September", theme: "Divine Favour", img: "/img/SEPTEMBER.jpg" },
+            { month: "October", theme: "Overwhelming Blessings", img: "/img/OCTOBER.jpg" },
+            { month: "November", theme: "Victory", img: "/img/NOVEMBER.jpg" },
+            { month: "December", theme: "Passover", img: "/img/DECEMBER.jpg" }
+        ];
+
+        // Global Modal Logic
+        const modal = document.getElementById('image-modal');
+        const modalImg = document.getElementById('modal-img');
+        const modalCounter = document.getElementById('modal-counter');
+        let currentImageIndex = 0;
+        let allGalleryImages = [];
+
+        function updateModalImage() {
+            const item = allGalleryImages[currentImageIndex];
+            modalImg.src = item.src;
+            modalCounter.innerText = `${currentImageIndex + 1} / ${allGalleryImages.length}`;
+        }
+
+        function openModalAt(index) {
+            currentImageIndex = index;
+            updateModalImage();
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function navigateModal(step) {
+            currentImageIndex = (currentImageIndex + step + allGalleryImages.length) % allGalleryImages.length;
+            updateModalImage();
+        }
+
+        function refreshGalleryTriggers() {
+            // Find all elements that should be part of the lightbox
+            const triggers = document.querySelectorAll('.gallery-trigger, .theme-card img');
+            allGalleryImages = Array.from(triggers);
+            
+            allGalleryImages.forEach((img, index) => {
+                img.style.cursor = 'pointer';
+                img.onclick = (e) => {
+                    e.stopPropagation();
+                    openModalAt(index);
+                };
+            });
+        }
+
+        // Render Themes
+        function renderMonthlyThemes() {
+            const container = document.getElementById('monthly-themes-container');
+            if (!container) return;
+            monthlyThemes.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'theme-card bg-white rounded-2xl overflow-hidden shadow-xl transform transition hover:-translate-y-2 cursor-pointer';
+                card.innerHTML = `
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="${item.img}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x300/1E3A8A/ffffff?text=${item.month}'">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 text-left">
+                            <span class="text-yellow-400 font-bold uppercase tracking-widest text-xs">${item.month}</span>
+                        </div>
+                    </div>
+                    <div class="p-6 text-center">
+                        <p class="text-xl font-black text-blue-900 uppercase">${item.theme}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            refreshGalleryTriggers();
+        }
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (modal.classList.contains('hidden')) return;
+            if (e.key === "ArrowRight") navigateModal(1);
+            if (e.key === "ArrowLeft") navigateModal(-1);
+            if (e.key === "Escape") closeModal();
+        });
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        // Slider
+        const slides = document.querySelectorAll('.slider-item');
+        let currentSlide = 0;
+        function showSlide(index) {
+            slides.forEach(s => s.classList.remove('active-slide'));
+            currentSlide = (index + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active-slide');
+        }
+        document.getElementById('prev-slide')?.addEventListener('click', () => showSlide(currentSlide - 1));
+        document.getElementById('next-slide')?.addEventListener('click', () => showSlide(currentSlide + 1));
+        setInterval(() => showSlide(currentSlide + 1), 6000);
+
+        function scrollGalleries(dir) {
+            ['gallery-row-1', 'gallery-row-2'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.scrollLeft += dir * 400;
+            });
+        }
+
+        window.onload = () => {
+            renderMonthlyThemes();
+        };
+    </script>
+</body>
+</html>
