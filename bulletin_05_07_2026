@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CACKB | Digital Bulletin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { cackb: { navy: '#00264d', gold: '#c5a059' } } } } }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+    <header class="bg-cackb-navy text-white p-8 border-b-8 border-cackb-gold">
+        <div class="max-w-5xl mx-auto text-center">
+            <h1 class="text-3xl font-bold uppercase tracking-widest">Christ Apostolic Church Kingdom Builders</h1>
+            <p class="text-cackb-gold font-semibold text-lg mt-1">Kingdom Builders’ Zonal Headquarters</p>
+            <p class="text-sm opacity-80 italic">Registered Charity Number: 1126777</p>
+            <div class="mt-4 text-xs space-y-1">
+                <p>Dagenham Parish Church Hall, Exeter Road, Off Church Lane, Dagenham, Essex RM10 8TR</p>
+                <p>Tel: 07782762821, 07903626570 | www.cackb.org | kingdombuilderscac@yahoo.co.uk</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto p-6 space-y-8">
+        
+        <div class="grid md:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow">
+            <div>
+                <h2 class="text-xl font-bold text-cackb-navy uppercase">Sunday Service</h2>
+                <p class="text-slate-600">Kingdom Hour: 12:00 PM - 2:00 PM</p>
+            </div>
+            <div class="text-right">
+                <p class="font-bold text-cackb-gold">Theme: "Possibilities"</p>
+                <p class="text-sm">Year Theme: "Our Year of Great and Mighty Things" (Jeremiah 33:3)</p>
+            </div>
+        </div>
+
+        <section class="bg-white p-6 rounded-xl shadow border-l-4 border-cackb-gold">
+            <h3 class="font-bold text-cackb-navy mb-3 text-lg">Vision, Mission & Watchword</h3>
+            <div class="text-sm space-y-2 text-slate-700">
+                <p><strong>Vision:</strong> Soul winning and spiritual re-awakening of the world.</p>
+                <p><strong>Mission:</strong> Leading people into the knowledge of God through an in-depth study of the word of God, prevailing prayer, and spiritual worship.</p>
+                <p><strong>Watchword (Year 2026):</strong> "Open my eyes that I may see wonderful things in your law." - Psalm 119:18</p>
+            </div>
+        </section>
+
+        <section class="bg-cackb-navy text-white p-6 rounded-xl shadow grid md:grid-cols-2 gap-6">
+            <div>
+                <h3 class="font-bold text-cackb-gold mb-2 border-b border-cackb-gold pb-1">ACCOUNT & SUPPORT</h3>
+                <p class="text-sm font-semibold mb-1">CACKB CHURCH ACCOUNT</p>
+                <p class="text-xs">Sort Code: 30-97-13 | Acc: 00301518</p>
+                <p class="text-sm font-semibold mt-3 mb-1">CACKB PROPERTY ACCOUNT</p>
+                <p class="text-xs">Sort Code: 30-99-50 | Acc: 46477463</p>
+                <p class="text-xs italic mt-4 text-cackb-gold">Thank you for your generous stewardship.</p>
+            </div>
+            <div>
+                <h3 class="font-bold text-cackb-gold mb-2 border-b border-cackb-gold pb-1">ZOOM LOGIN DETAILS</h3>
+                <p class="text-sm">Zoom ID: 951 326 800</p>
+                <p class="text-sm">Passcode: 345678</p>
+            </div>
+        </section>
+
+        <section class="bg-white p-6 rounded-xl shadow">
+            <h3 class="font-bold text-cackb-navy mb-4 border-b-2 border-cackb-gold pb-2">ORDER OF SERVICE</h3>
+            <ol class="grid md:grid-cols-2 gap-2 list-decimal pl-5 text-sm text-slate-700">
+                <li>Opening Prayer</li>
+                <li>Praise Worship</li>
+                <li>Opening Hymn: CACGH 067</li>
+                <li>Call to Worship</li>
+                <li>Bible Reading: Luke 10:25-37</li>
+                <li>Announcements</li>
+                <li>Tithes & Offering</li>
+                <li>Message</li>
+                <li>Closing Hymn: CACGH 41</li>
+                <li>Benediction</li>
+            </ol>
+        </section>
+
+        <section class="bg-white p-6 rounded-xl shadow">
+            <h3 class="font-bold text-cackb-navy mb-4 border-b-2 border-cackb-gold pb-2">FOOD FOR SOUL</h3>
+            <p class="font-semibold text-cackb-navy mb-2">TOPIC: Remember Ye Not</p>
+            <p class="font-semibold text-slate-700 mb-4">TEXT: Isaiah 43:18-19</p>
+            <div class="text-sm text-slate-700 space-y-3 leading-relaxed italic">
+                <p>Remember ye not the former things, neither consider the
+things of old. Behold, I will do a
+new thing; now it shall spring
+forth; shall ye not know it? I will
+even make a way in the
+wilderness, and rivers in the
+desert. <br>
+Beloved, we are enjoined by God
+to remember not the former
+things. Former things that
+represents your difficulties,
+pains, disappointments and
+those things that did not go the
+way you thought they should.<br>
+The Lord says that is nothing to
+be compared to what He (God) is
+going to do. God promised us a
+brand new thing. God has
+fulfilled that promise to the
+Israelites and I prayed that He
+will do far more than we thought
+in our lives, families and Christ
+Apostolic Church Kingdom
+Builders as a whole in Jesus
+name. <br>Stop thinking and talking
+about how big your mountain is and began to think and talk
+about how big your God is.<br>
+Remain Blessed.<br> Happy Sunday
+to you all.</p>
+            </div>
+        </section>
+
+        <section class="bg-white p-6 rounded-xl shadow">
+            <h3 class="font-bold text-cackb-navy mb-4 border-b-2 border-cackb-gold pb-2">SUMMARY OF LAST WEEK MESSAGE BY: PASTOR R. R. FAJIMI</h3>
+            <p class="font-semibold text-cackb-navy mb-2">TOPIC: GOD OF POSSIBILITIES</p>
+            <p class="font-semibold text-slate-700 mb-4">TEXT: JOHN 11:39-44</p>
+            <div class="text-sm text-slate-700 space-y-3 leading-relaxed italic">
+                <p>39  “Take away the stone,” he said.
+“But, Lord,” said Martha, the sister of the
+dead man, “by this time there is a bad odor,
+for he has been there four days.”<br>40  Then Jesus said, “Did I not tell you that if
+you believe, you will see the glory of God?”<br>
+41  So they took away the stone. Then Jesus
+looked up and said, “Father, I thank you that
+you have heard me.  <br>42  I knew that you always
+hear me, but I said this for the benefit of the
+people standing here, that they may believe
+that you sent me.”<br>
+43  When he had said this, Jesus called in a loud
+voice, “Lazarus, come out!”  <br>44  The dead man
+came out, his hands and feet wrapped with
+strips of linen, and a cloth around his face.
+Jesus said to them, “Take off the grave
+clothes and let him go.”</p>
+            </div>
+        </section>
+
+        <section class="grid md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-xl shadow">
+                <h3 class="font-bold text-cackb-navy mb-4 border-b-2 border-cackb-gold pb-2">OPENING HYMN: CACGH 067</h3>
+                <div class="text-xs text-slate-700 space-y-2 italic whitespace-pre-line">
+                    1. I will praise the Lord for His love to me
+                    <br>I am washed in the blood of my Redeemer,
+                    <br>In the fount that flows at the cross so free
+                    <br>I am washed in the blood of my Redeemer.
+                    <br><br>
+
+                    <b>Chorus:</b>
+                    <br>Glory, glory, glory to the Lamb
+                    <br>I am sav’d from sin and He makes me what I am
+                    <br>Oh, glory, glory, glory to the Lamb
+                    <br>I am washed in the blood of my Redeemer.
+                    <br><br>
+
+                    2. I am saved by grace and to Him bro’t near
+                    <br>I am washed in the blood of my Redeemer
+                    <br>I would sing so loud that the world might hear
+                    <br>I am washed in the blood of my Redeemer.
+
+                    3. What a constant peace in my heart I feel
+                    <br>I am washed in the blood of my Redeemer
+                    <br>There’s a holy joy I can nev’r reveal
+                    <br>I am washed in the blood of my Redeemer.
+                    <br>Amen.
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow">
+                <h3 class="font-bold text-cackb-navy mb-4 border-b-2 border-cackb-gold pb-2">CLOSING HYMN: CACGH 41</h3>
+                <div class="text-xs text-slate-700 space-y-2 italic whitespace-pre-line">
+                    1. We are never, never weary of the grand old song;
+                    Glory to God, hallelujah!
+                    We can sing it loud as ever, with our faith more strong;
+                    Glory to God, hallelujah!
+
+                    Refrain:
+                    O, the children of the Lord have a right to shout and sing,
+                    For the way is growing bright, and our souls are on the wing;
+                    We are going by and by to the palace of a King!
+                    Glory to God, hallelujah!
+
+                    2. We are lost amid the rapture of redeeming love
+                    Glory to God, hallelujah!
+                    We are rising on its pinions to the hills above:
+                    Glory to God, hallelujah!
+
+                    3. We are going to a palace that is built of gold;
+                    Glory to God, hallelujah!
+                    Where the King in all His splendor we shall soon behold
+                    Glory to God, hallelujah!
+
+                    4. There we’ll shout redeeming mercy in a glad, new song;
+                    Glory to God, hallelujah!
+                    There we’ll sing the praise of Jesus with the blood washed throng;
+                    Glory to God, hallelujah!
+                    Amen.
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white p-6 rounded-xl shadow">
+            <h3 class="font-bold text-cackb-navy mb-4 border-b-2 border-cackb-gold pb-2">PROPHETIC PRAYERS</h3>
+            <ul class="text-xs grid md:grid-cols-2 gap-4 text-slate-700">
+                <li>Lord re-focus my eyes to always behold your greatness in all circumstances, IJN</li>
+                <li>I prophesy on my destiny to move forward, IJN</li>
+                <li>O Lord, let wonderful changes begin to be my lot from this week, IJN</li>
+                <li>O Lord, with your mighty hand eradicate all destiny destroyers in my life, IJN</li>
+                <li>All those great dreams I had in the past let them be fulfilled, IJN</li>
+                <li>Every problem designed to destroy my destiny, die, IJN</li>
+                <li>I take back everything the enemy has stolen from me through dreams, IJN</li>
+                <li>Let evil intentions of mockers turn against them, IJN</li>
+                <li>Any evil door opened in my life, be sealed by the blood of Jesus, IJN</li>
+                <li>I prophesy over my life, wake up, IJN</li>
+                <li>Let the mark of divine favour and protection be upon my life, family & CACKB, IJN</li>
+                <li>O Lord let the fire of revival fall upon CACKB, IJN</li>
+            </ul>
+        </section>
+
+        <section class="bg-white p-6 rounded-xl shadow">
+            <h3 class="font-bold text-cackb-navy mb-4 border-b-2 border-cackb-gold pb-2">ANNOUNCEMENTS</h3>
+            <ul class="text-xs space-y-2 text-slate-700 list-disc pl-4">
+                <li>We acknowledge the presence of those worshipping with us for the first time.</li>
+                <li>We say Happy Birthday to all July Born members, and wishing you many happy returns, in Jesus Name.</li>
+                <li>Our end of the month Thanksgiving comes up last Sunday of each month.</li>
+                <li>Our brother Mr. Lekan Oso lost his dad Snr. Evang. E. O. Oso aged 94 yrs and burial arrangements : 
+                    <br>Thursday 16th July by 6:00 PM 1, Chinyere Close, Joyce B, Ibadan,
+                    <br>Friday 17th July by 10:00 AM Burial at 1ST Baptist Church Cemetery.
+                    <br>Reception at Salem Event Centre Oluyole Extension.  Ibadan.</li>
+                <li>Purchase of (60) additional Chairs , you can support by paying to Church account for that purpose</li>
+                <li>The family of our beloved DEACONESS Olakitan Rotimi announce the demise of our beloved 
+                    HRM Dr. Abayomi Olusegun Rotimi who joined his ancestors on 30/6/26 @ ripe aged 85 years. 
+                    May the Lord console the entire family.</li>
+                <li>CACKB Youth Fellowship (Virtual): Sunday by 6:00 PM</li>
+                <li>CACKB Evangelism Weekend Outreach: Saturday 13th June 2026 by 11:00 AM</li>
+                <li>Prevailing Mother's Prayer: Every Tuesday 6:00 AM - 6:30 AM</li>
+                <li>Hour of Mercy: Every Wednesday by 12:00 Noon</li>
+                <li>Holy Communion: First Sunday of each month</li>
+                <li>Virtual Bible Study/Prayer: Every Wednesday at 20:00 - 22:00</li>
+                <li>Dept. Heads Meeting (Virtual): Sunday 2nd August 2026 by 20:00 PM</li>
+                <li>Sunday School Teacher's Review: Last Saturday monthly by 12 PM</li>
+                <li>Women Fellowship: First Saturday monthly by 10:00 AM - 11:00 AM</li>
+                <li>Men Virtual Monthly Meeting: Second Thursday monthly by 7:00 PM - 8:00 PM</li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>
